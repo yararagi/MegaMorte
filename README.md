@@ -1,4 +1,4 @@
-# BiscaronProject
+# MegaMorte Game
 
 Progetto di informatica - Arcade Game
 
