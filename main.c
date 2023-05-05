@@ -24,7 +24,7 @@ int main(void){
             ClearBackground(RAYWHITE);
             DrawTexture(background, 0, 0, WHITE);
             updatePosition(&player);
-            DrawRectangle(player.x, player.y, player.widht, player.height, RED);
+            DrawRectangle(player.x, player.y, player.widht, player.height, RED); //di prova
             
 
         EndDrawing();
