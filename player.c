@@ -31,7 +31,6 @@ void updatePosition(Player* player){
     player->x+=( (player->speed*cos(player->angle)) + cos(player->angle) )*GetFrameTime();
 
     // AGGIUNGERE I LIMITI DELLO SCHERMO
-            printf("\n\n%lf-%lf-%lf-%lf\n\n",player->x,player->y,cos(player->angle),sin(180+player->angle));
 }
 
 void setPlayer(Player* player, const char* imgFilename, unsigned int displayX, unsigned int displayY){

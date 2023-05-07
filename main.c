@@ -35,6 +35,7 @@ int main(void){
 
         EndDrawing();
     }
+    UnloadTexture(player.texture);
     UnloadTexture(background);
 
     CloseWindow();
