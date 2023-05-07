@@ -11,7 +11,7 @@ typedef struct{
 }Player;
 
 void updatePosition(Player*);
-void setPlayer(Player*, unsigned int, unsigned int);
+void setPlayer(Player*, const char*, unsigned int, unsigned int);
 
 
 
@@ -34,13 +34,20 @@ void updatePosition(Player* player){
             printf("\n\n%lf-%lf-%lf-%lf\n\n",player->x,player->y,cos(player->angle),sin(180+player->angle));
 }
 
-void setPlayer(Player* player, unsigned int displayX, unsigned int displayY){
+void setPlayer(Player* player, const char* imgFilename, unsigned int displayX, unsigned int displayY){
     player->y=displayY/2;
     player->x=displayX/2;
     player->angle=PI/2;
     player->fallSpeed=0;
-    player->height=15;
-    player->widht=15;
+    player->height=30;
+    player->widht=30;
     player->speed=0;
-    //TODO TEXTURE
+
+    Image playerImg;
+
+    playerImg= LoadImage(imgFilename);
+    ImageResize(&playerImg, player->widht, player->height);
+    player->texture= LoadTextureFromImage(playerImg);
+    UnloadImage(playerImg);
 }
+

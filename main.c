@@ -17,14 +17,21 @@ int main(void){
     
     initWindow();
     setBackground(&background, "img/background_sea.png");
-    setPlayer(&player,displayX,displayY);
+    setPlayer(&player,"img/player.png",displayX,displayY);
 
     while(!WindowShouldClose()){
         BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawTexture(background, 0, 0, WHITE);
             updatePosition(&player);
-            DrawPoly((Vector2){player.x,player.y},3,player.height,(player.angle*-180/PI),RED); //di prova
+            DrawTexturePro(
+                player.texture,
+                (Rectangle){0,0,player.widht,player.height},
+                (Rectangle){player.x,player.y,player.widht,player.height},
+                (Vector2){player.widht/2,player.height/2},
+                (player.angle*-180/PI)+90,
+                WHITE
+            );
 
         EndDrawing();
     }
