@@ -43,6 +43,7 @@ void initWindow(void){
     displayY=GetMonitorHeight(display);
 
     SetWindowSize(displayX, displayY);
+    SetWindowState(FLAG_VSYNC_HINT);
     SetWindowState(FLAG_FULLSCREEN_MODE);
     
     SetTargetFPS(60);
