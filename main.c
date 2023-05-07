@@ -24,8 +24,7 @@ int main(void){
             ClearBackground(RAYWHITE);
             DrawTexture(background, 0, 0, WHITE);
             updatePosition(&player);
-            DrawRectangle(player.x, player.y, player.widht, player.height, RED); //di prova
-            
+            DrawPoly((Vector2){player.x,player.y},3,player.height,(player.angle*-180/PI),RED); //di prova
 
         EndDrawing();
     }

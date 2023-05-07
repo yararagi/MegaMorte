@@ -4,7 +4,7 @@
 
 typedef struct{
     double x,y;
-    int ySpeed, xSpeed, fallSpeed;
+    int speed, fallSpeed;
     double angle;
     unsigned int widht, height;
     Texture2D texture;
@@ -16,35 +16,31 @@ void setPlayer(Player*, unsigned int, unsigned int);
 
 
 void updatePosition(Player* player){
-    if(IsKeyDown(KEY_D)){ player->angle-=0.06; }
-    if(IsKeyDown(KEY_A)){ player->angle+=0.06; }
+    if(IsKeyDown(KEY_D)){ player->angle-=2*PI*GetFrameTime(); }
+    if(IsKeyDown(KEY_A)){ player->angle+=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_W)){    
-        player->ySpeed=500;
-        player->xSpeed=500;
+        player->speed=500;
         player->fallSpeed=0;    
     }
     else{   
-        player->ySpeed=0;
-        player->xSpeed-=1;
-        if(player->fallSpeed<250) player->fallSpeed+=10;   
+        if(player->speed>0) player->speed-=3;
+        if(player->fallSpeed<300) player->fallSpeed+=15;   
     }
     
-    player->y+=((player->ySpeed*sin(player->angle+180))+player->fallSpeed)*GetFrameTime();
-    player->x+=(player->xSpeed*cos(player->angle))*GetFrameTime();
+    player->y+=( (player->speed*sin(player->angle+PI)) + player->fallSpeed )*GetFrameTime();
+    player->x+=( (player->speed*cos(player->angle)) + cos(player->angle) )*GetFrameTime();
 
-    //DA MIGLIORARE E AGGIUNGERE I LIMITI DELLO SCHERMO
-    //quando W non è premuta la rotta deve rimanere invariata ma l'angolo cambiare
+    // AGGIUNGERE I LIMITI DELLO SCHERMO
             printf("\n\n%lf-%lf-%lf-%lf\n\n",player->x,player->y,cos(player->angle),sin(180+player->angle));
 }
 
 void setPlayer(Player* player, unsigned int displayX, unsigned int displayY){
     player->y=displayY/2;
     player->x=displayX/2;
-    player->angle=90;
+    player->angle=PI/2;
     player->fallSpeed=0;
-    player->height=30;
-    player->widht=30;
-    player->ySpeed=0;
-    player->xSpeed=0;
+    player->height=15;
+    player->widht=15;
+    player->speed=0;
     //TODO TEXTURE
 }

@@ -5,6 +5,8 @@
         "raylib.h": "c",
         "stdlib.h": "c",
         "stdio.h": "c",
-        "cstdio": "c"
+        "cstdio": "c",
+        "cmath": "c",
+        "*.tcc": "c"
     }
 }
