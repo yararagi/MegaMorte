@@ -17,7 +17,7 @@ int main(void){
     
     initWindow();
     setBackground(&background, "img/background_sea.png");
-    setPlayer(&player,"img/player.png",displayX,displayY);
+    setPlayer(&player,"img/player.png");
 
     while(!WindowShouldClose()){
         BeginDrawing();
