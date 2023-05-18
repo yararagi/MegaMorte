@@ -20,7 +20,7 @@ int main(void){
     unsigned short int scelta=0;
     
     initWindow();
-    setBackground(&background, "img/background_sea.png");
+    setBackground(&background, "img/backgroundSea.png");
     setBackground(&backgroundMenu, "img/backgroundMenu.png");
     setPlayer(&player,"img/player.png");
     setTitle(&logo, "img/logo.png");
