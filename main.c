@@ -78,6 +78,13 @@ int main(void){
                     }
                 }
             }else if(scelta==2){
+               DrawTexture(backgroundMenu, 0, 0, WHITE);
+		       DrawTextEx(megaFont, "CREDITI", (Vector2){(displayX/2)-(MeasureText("CREDITI",35)/2), displayY/2+100}, 35, 0,(Color){164, 22, 26, 150} : (Color){35, 35, 35, 250} );
+               DrawTextEx(megaFont, "PROGRAMMATORE/DESIGNER/COORDINATORE:", (Vector2){(displayX/2)-(MeasureText("PROGRAMMATORE/DESIGNER:",35)/2), displayY/2+150}, 35, 0,(Color){164, 22, 26, 150} : (Color){35, 35, 35, 250} );
+               DrawTextEx(megaFont, "MONTANARO YARI", (Vector2){(displayX/2+200)-(MeasureText("MONTANARO YARI",35)/2), displayY/2+150}, 35, 0,(Color){164, 22, 26, 150} : (Color){35, 35, 35, 250} );
+               DrawTextEx(megaFont, "PROGRAMMATORE/DESIGNER/MUSIC DESIGNEER:", (Vector2){(displayX/2)-(MeasureText("PROGRAMMATORE/DESIGNER:",35)/2), displayY/2+200}, 35, 0,(Color){164, 22, 26, 150} : (Color){35, 35, 35, 250} );
+               DrawTextEx(megaFont, "TIVERON SEBASTIANO", (Vector2){(displayX/2+200)-(MeasureText("TIVERON SEBASTIANO",35)/2), displayY/2+200}, 35, 0,(Color){164, 22, 26, 150} : (Color){35, 35, 35, 250} );
+
                 //TODO
             }else{
                 break;
