@@ -1,23 +1,10 @@
+#include"player.h"
+
+#include<stdbool.h>
 #include<raylib.h>
 #include<math.h>
-#include<stdio.h>
 
-typedef struct{
-    double x,y;
-    int speed, fallSpeed;
-    double angle;
-    unsigned int widht, height;
-    bool megadeth;
-    unsigned short int hp;
-    Texture2D texture;
-}Player;
-
-void updatePosition(Player*);
-void setPlayer(Player*, const char*);
-
-
-
-void updatePosition(Player* player){
+void updatePlayerPosition(Player* player){
     if(IsKeyDown(KEY_D)){ player->angle-=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_A)){ player->angle+=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_W) && player->y-player->height>0){    

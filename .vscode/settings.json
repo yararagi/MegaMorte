@@ -7,6 +7,21 @@
         "stdio.h": "c",
         "cstdio": "c",
         "cmath": "c",
-        "*.tcc": "c"
+        "*.tcc": "c",
+        "math.h": "c",
+        "enemy.h": "c",
+        "player.h": "c",
+        "stdbool.h": "c",
+        "climits": "c",
+        "compare": "c",
+        "concepts": "c",
+        "cstdarg": "c",
+        "cstdlib": "c",
+        "type_traits": "c",
+        "limits": "c",
+        "new": "c",
+        "cstdbool": "c",
+        "cstdint": "c",
+        "typeinfo": "c"
     }
 }
