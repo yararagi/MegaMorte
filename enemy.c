@@ -11,7 +11,6 @@ void setEnemy(Enemy * enemy, const char * imgFilename){
 
     srand(time(NULL));
 
-    enemy->alive=false;
     enemy->speed=400;
     enemy->hp=150;
     switch(rand()%3){
@@ -35,4 +34,19 @@ void setEnemy(Enemy * enemy, const char * imgFilename){
     ImageResize(&enemyImg, enemy->widht, enemy->height);
     enemy->texture= LoadTextureFromImage(enemyImg);
     UnloadImage(enemyImg);
+}
+
+void deleteEnemy(Enemy** enemies, unsigned short int posDel, unsigned short int* nEnemies){
+    for(int i=posDel; i<*nEnemies;i++){
+        enemies[i]->x=enemies[i+1]->x;
+        enemies[i]->y=enemies[i+1]->y;
+        enemies[i]->height=enemies[i+1]->height;
+        enemies[i]->widht=enemies[i+1]->widht;
+        enemies[i]->speed=enemies[i+1]->speed;
+        enemies[i]->hp=enemies[i+1]->hp;
+        enemies[i]->texture=enemies[i+1]->texture;
+    }
+    *nEnemies-=1;
+
+    *enemies=(Enemy*)realloc(*enemies, (*nEnemies)*(sizeof(Enemy)));
 }

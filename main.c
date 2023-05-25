@@ -60,6 +60,25 @@ int main(void){
                     WHITE
                 );
 
+                for(int i=0; i<nEnemies; i++){
+                    DrawTexturePro(enemies[i].texture, 
+                    (Rectangle){0, 0, enemies[i].widht, enemies[i].height},
+                    (Rectangle){enemies[i].x, enemies[i].y, enemies[i].widht, enemies[i].height},
+                    (Vector2){enemies[i].widht/2, enemies[i].height/2},
+                    0,
+                    WHITE
+                    );
+
+                    if(CheckCollisionRecs((Rectangle){player.x, player.y, player.widht, player.height}, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].widht, enemies[i].height})){
+                        // player.hp > 29 ? player.hp-=30 : player.megadeth = true;
+                        if(player.hp>29){
+                            player.hp-=30;
+                        }else{
+                            player.megadeth=true;
+                        }
+                    }
+                }
+
                 if(player.megadeth){
                     
                     DrawTexture(deathText, displayX/2 -175, displayY/2 -38, WHITE);

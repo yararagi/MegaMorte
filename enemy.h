@@ -2,10 +2,8 @@
 #define ENEMY_H_
 
 #include<raylib.h>
-#include<stdbool.h>
 
 typedef struct{
-    bool alive;
     float x, y;
     int widht, height;
     int speed;
@@ -15,5 +13,6 @@ typedef struct{
 
 void updateEnemiesPosition(Enemy*);
 void setEnemy(Enemy *, const char *);
+void deleteEnemy(Enemy**, unsigned short int, unsigned short int*);
 
 #endif //ENEMY_H_
