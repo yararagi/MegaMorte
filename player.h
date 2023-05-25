@@ -8,7 +8,7 @@ typedef struct{
     float x, y;
     int speed, fallSpeed;
     double angle;
-    unsigned int widht, height;
+    int widht, height;
     bool megadeth;
     unsigned short int hp;
     Texture2D texture;

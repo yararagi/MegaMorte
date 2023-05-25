@@ -17,10 +17,12 @@ int main(void){
     Texture2D background, backgroundMenu, logo, deathText;
     Font megaFont;
     Player player;
-    unsigned short int nEnemies=25;
+    unsigned short int nEnemies=15;
     Enemy *enemies= (Enemy*)malloc(nEnemies*sizeof(Enemy));
     short int menu=0;
     unsigned short int scelta=0;
+
+    if(enemies==NULL){exit(69);}
     
     initWindow();
     setBackground(&background, "img/backgroundSea.png");
@@ -29,7 +31,7 @@ int main(void){
     setTitle(&deathText, "img/endgame.png");
     megaFont=LoadFont("font/Megadeth.ttf");
     setPlayer(&player,"img/player.png");
-    for(int i=0; i<nEnemies; i++){ setEnemy(enemies+i, "img/enemy.png"); }
+    for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png"); }
 
 
     while(!WindowShouldClose()){
@@ -60,14 +62,8 @@ int main(void){
                     WHITE
                 );
 
-                for(int i=0; i<nEnemies; i++){
-                    DrawTexturePro(enemies[i].texture, 
-                    (Rectangle){0, 0, enemies[i].widht, enemies[i].height},
-                    (Rectangle){enemies[i].x, enemies[i].y, enemies[i].widht, enemies[i].height},
-                    (Vector2){enemies[i].widht/2, enemies[i].height/2},
-                    0,
-                    WHITE
-                    );
+                for(unsigned short int i=0; i<nEnemies; i++){
+                    DrawTexture(enemies[i].texture, enemies[i].x, enemies[i].y ,WHITE);
 
                     if(CheckCollisionRecs((Rectangle){player.x, player.y, player.widht, player.height}, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].widht, enemies[i].height})){
                         // player.hp > 29 ? player.hp-=30 : player.megadeth = true;
@@ -76,6 +72,7 @@ int main(void){
                         }else{
                             player.megadeth=true;
                         }
+                        printf("\n\nRR%f %f \n\n",enemies[i].x, enemies[i].y);
                     }
                 }
 
@@ -98,6 +95,7 @@ int main(void){
                             scelta=0;
                         }
                         setPlayer(&player,"img/player.png");
+                        for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png"); }
                     }
                 }
             }else if(scelta==2){

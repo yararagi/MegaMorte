@@ -13,6 +13,8 @@ void setEnemy(Enemy * enemy, const char * imgFilename){
 
     enemy->speed=400;
     enemy->hp=150;
+    enemy->widht=20;
+    enemy->height=20;
     switch(rand()%3){
         case 0:
             enemy->x=rand()%(GetScreenWidth()/2)-(GetScreenWidth()/2);
