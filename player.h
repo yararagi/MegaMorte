@@ -5,12 +5,12 @@
 #include<stdbool.h>
 
 typedef struct{
+    short int widht, height;
     float x, y;
-    int speed, fallSpeed;
+    short int speed, fallSpeed;
     double angle;
-    int widht, height;
+    short int hp;
     bool megadeth;
-    unsigned short int hp;
     Texture2D texture;
 }Player;
 

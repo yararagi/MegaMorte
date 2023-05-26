@@ -5,9 +5,9 @@
 
 typedef struct{
     float x, y;
-    int widht, height;
-    int speed;
-    unsigned short int hp;
+    short int widht, height;
+    short int speed;
+    short int hp;
     Texture2D texture;
 }Enemy;
 

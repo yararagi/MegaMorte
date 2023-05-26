@@ -1,8 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<math.h>
 #include<raylib.h>
-#include<time.h>
 #include"player.h"
 #include"enemy.h"
 
@@ -67,15 +65,15 @@ int main(void){
 
                     if(CheckCollisionRecs((Rectangle){player.x, player.y, player.widht, player.height}, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].widht, enemies[i].height})){
                         // player.hp > 29 ? player.hp-=30 : player.megadeth = true;
-                        if(player.hp>29){
-                            player.hp-=30;
-                        }else{
-                            player.megadeth=true;
-                        }
+                        player.hp-=30;
                         printf("\n\nRR%f %f \n\n",enemies[i].x, enemies[i].y);
                     }
                 }
-
+        
+                if(player.hp<1){
+                    player.megadeth=true;
+                }
+        
                 if(player.megadeth){
                     
                     DrawTexture(deathText, displayX/2 -175, displayY/2 -38, WHITE);
@@ -100,7 +98,7 @@ int main(void){
                 }
             }else if(scelta==2){
                 DrawTexture(backgroundMenu, 0, 0, WHITE);
-		DrawTextEx(megaFont, "CREDITI", (Vector2){(displayX/2)-(MeasureText("CREDITI",45)/2), displayY/4}, 45, 0, (Color){35, 35, 35, 250} );
+		        DrawTextEx(megaFont, "CREDITI", (Vector2){(displayX/2)-(MeasureText("CREDITI",45)/2), displayY/4}, 45, 0, (Color){35, 35, 35, 250} );
                 DrawTextEx(megaFont, "PROGRAMMATORE/DESIGNER/COORDINATORE:", (Vector2){(displayX/2)-(MeasureText("PROGRAMMATORE/DESIGNER/COORDINATORE:",35)/2), displayY/2-50}, 35, 0, (Color){213, 189, 175, 250} );
                 DrawTextEx(megaFont, "MONTANARO YARI", (Vector2){(displayX/2)-(MeasureText("MONTANARO YARI",35)/2), displayY/2}, 35, 0, RAYWHITE ); 
                 DrawTextEx(megaFont, "PROGRAMMATORE/DESIGNER/MUSIC DESIGNEER:", (Vector2){(displayX/2)-(MeasureText("PROGRAMMATORE/DESIGNER/MUSIC DESIGNEER:",35)/2), displayY/2+50}, 35, 0, (Color){213, 189, 175, 250} ); 

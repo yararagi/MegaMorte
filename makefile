@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I. -lraylib -lopengl32 -lgdi32 -lwinmm -Wall -Wextra -g3
+CFLAGS=-I. -lraylib -lopengl32 -lgdi32 -lwinmm -Wall -Wextra -g3 -Og
 DEPS = enemy.h player.h
 OBJ = main.o enemy.o player.o
 EXE = MegaMorte

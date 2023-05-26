@@ -2,9 +2,8 @@
 
 #include<stdlib.h>
 #include<time.h>
-#include<stdbool.h>
 #include<raylib.h>
-#include<math.h>
+#include<string.h>
 
 void setEnemy(Enemy * enemy, const char * imgFilename){
     Image enemyImg;
@@ -39,16 +38,10 @@ void setEnemy(Enemy * enemy, const char * imgFilename){
 }
 
 void deleteEnemy(Enemy** enemies, unsigned short int posDel, unsigned short int* nEnemies){
-    for(int i=posDel; i<*nEnemies;i++){
-        enemies[i]->x=enemies[i+1]->x;
-        enemies[i]->y=enemies[i+1]->y;
-        enemies[i]->height=enemies[i+1]->height;
-        enemies[i]->widht=enemies[i+1]->widht;
-        enemies[i]->speed=enemies[i+1]->speed;
-        enemies[i]->hp=enemies[i+1]->hp;
-        enemies[i]->texture=enemies[i+1]->texture;
+    //memmove( ((*enemies)+posDel), ((*enemies)+posDel+1), sizeof(Enemy)*((*nEnemies)-posDel));
+    for(int i=posDel; i<*nEnemies-1;i++){
+        (*enemies)[i]=(*enemies)[i+1];
     }
     *nEnemies-=1;
-
     *enemies=(Enemy*)realloc(*enemies, (*nEnemies)*(sizeof(Enemy)));
 }
