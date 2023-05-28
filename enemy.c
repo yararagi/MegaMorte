@@ -3,9 +3,12 @@
 #include<stdlib.h>
 #include<time.h>
 #include<raylib.h>
+#include<stdbool.h>
 #include<string.h>
 
-void setEnemy(Enemy * enemy){
+void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture){
+    Image enemyImg;
+
     srand(time(NULL));
 
     enemy->speed=400;
@@ -28,23 +31,17 @@ void setEnemy(Enemy * enemy){
         default:
             break;
     }
-
-    
-}
-
-void setEnemiesTexture(Enemy *enemies, const char* imgFilename, int nEnemies){
-    Image enemyImg;
-    for(unsigned short int i=0; i<nEnemies; i++){
+    if(setTexture){
         enemyImg= LoadImage(imgFilename);
-        ImageResize(&enemyImg, enemies[i].widht, enemies[i].height);
-        enemies[i].texture= LoadTextureFromImage(enemyImg);
+        ImageResize(&enemyImg, enemy->widht, enemy->height);
+        enemy->texture= LoadTextureFromImage(enemyImg);
         UnloadImage(enemyImg);
     }
 }
 
 void deleteEnemy(Enemy** enemies, unsigned short int posDel, unsigned short int* nEnemies){
     //memmove( ((*enemies)+posDel), ((*enemies)+posDel+1), sizeof(Enemy)*((*nEnemies)-posDel));
-    for(unsigned short int i=posDel; i<*nEnemies-1;i++){
+    for(int i=posDel; i<*nEnemies-1;i++){
         (*enemies)[i]=(*enemies)[i+1];
     }
     *nEnemies-=1;

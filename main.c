@@ -28,9 +28,8 @@ int main(void){
     setTitle(&logo, "img/logo.png");
     setTitle(&deathText, "img/endgame.png");
     megaFont=LoadFont("font/Megadeth.ttf");
-    setPlayer(&player,"img/player.png");
-    for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i])); }
-    setEnemiesTexture(enemies, "img/enemy.png", nEnemies);
+    setPlayer(&player,"img/player.png", true);
+    for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", true); }
 
 
     while(!WindowShouldClose()){
@@ -93,8 +92,8 @@ int main(void){
                             menu=0;
                             scelta=0;
                         }
-                        setPlayer(&player,"img/player.png");
-                        for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i])); }
+                        setPlayer(&player,"img/player.png", false);
+                        for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", false); }
                     }
                 }
             }else if(scelta==2){

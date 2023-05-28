@@ -32,7 +32,7 @@ void updatePlayerPosition(Player* player){
 
 }
 
-void setPlayer(Player* player, const char* imgFilename){
+void setPlayer(Player* player, const char* imgFilename, bool setTexture){
     player->y=GetScreenHeight()/2;
     player->x=GetScreenWidth()/2;
     player->angle=PI/2;
@@ -45,9 +45,11 @@ void setPlayer(Player* player, const char* imgFilename){
 
     Image playerImg;
 
-    playerImg= LoadImage(imgFilename);
-    ImageResize(&playerImg, player->widht, player->height);
-    player->texture= LoadTextureFromImage(playerImg);
-    UnloadImage(playerImg);
+    if(setTexture){
+        playerImg= LoadImage(imgFilename);
+        ImageResize(&playerImg, player->widht, player->height);
+        player->texture= LoadTextureFromImage(playerImg);
+        UnloadImage(playerImg);
+    }
 }
 

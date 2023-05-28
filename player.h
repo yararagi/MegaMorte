@@ -15,6 +15,6 @@ typedef struct{
 }Player;
 
 void updatePlayerPosition(Player*);
-void setPlayer(Player*, const char*);
+void setPlayer(Player*, const char*, bool);
 
 #endif //PLAYER_H_
