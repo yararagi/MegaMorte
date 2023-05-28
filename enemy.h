@@ -12,7 +12,8 @@ typedef struct{
 }Enemy;
 
 void updateEnemiesPosition(Enemy*);
-void setEnemy(Enemy *, const char *);
+void setEnemy(Enemy *);
+void setEnemiesTexture(Enemy*, const char*, int);
 void deleteEnemy(Enemy**, unsigned short int, unsigned short int*);
 
 #endif //ENEMY_H_
