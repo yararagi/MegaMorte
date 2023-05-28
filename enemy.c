@@ -11,10 +11,11 @@ void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture){
 
     srand(time(NULL));
 
+    // enemy->alive=false;
     enemy->speed=400;
     enemy->hp=150;
-    enemy->widht=20;
-    enemy->height=20;
+    enemy->width=30;
+    enemy->height=30;
     switch(rand()%3){
         case 0:
             enemy->x=rand()%(GetScreenWidth()/2)-(GetScreenWidth()/2);
@@ -33,17 +34,15 @@ void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture){
     }
     if(setTexture){
         enemyImg= LoadImage(imgFilename);
-        ImageResize(&enemyImg, enemy->widht, enemy->height);
+        ImageResize(&enemyImg, enemy->width, enemy->height);
         enemy->texture= LoadTextureFromImage(enemyImg);
         UnloadImage(enemyImg);
     }
 }
 
-void deleteEnemy(Enemy** enemies, unsigned short int posDel, unsigned short int* nEnemies){
-    //memmove( ((*enemies)+posDel), ((*enemies)+posDel+1), sizeof(Enemy)*((*nEnemies)-posDel));
+void deleteEnemy(Enemy* enemies, unsigned short int posDel, unsigned short int* nEnemies){
     for(int i=posDel; i<*nEnemies-1;i++){
-        (*enemies)[i]=(*enemies)[i+1];
+        enemies[i]=enemies[i+1];
     }
     *nEnemies-=1;
-    *enemies=(Enemy*)realloc(*enemies, (*nEnemies)*(sizeof(Enemy)));
 }

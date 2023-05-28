@@ -14,14 +14,20 @@ void setTitle(Texture2D*, const char*);
 int main(void){
     Texture2D background, backgroundMenu, logo, deathText;
     Font megaFont;
+    
     Player player;
-    unsigned short int nEnemies=15;
-    Enemy *enemies= (Enemy*)malloc(nEnemies*sizeof(Enemy));
+    
+    unsigned short int nLasers=0;
+    PlayerLaser playerLasers[maxNumOfLasers];
+
+    unsigned short int nEnemies=10;
+    Enemy enemies[maxNumOfEnemies];
+    
     short int menu=0;
     unsigned short int scelta=0;
-
-    if(enemies==NULL){exit(69);}
     
+
+
     initWindow();
     setBackground(&background, "img/backgroundSea.png");
     setBackground(&backgroundMenu, "img/backgroundMenu.png");
@@ -29,12 +35,14 @@ int main(void){
     setTitle(&deathText, "img/endgame.png");
     megaFont=LoadFont("font/Megadeth.ttf");
     setPlayer(&player,"img/player.png", true);
-    for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", true); }
+    setPlayerLasers(playerLasers, maxNumOfLasers, "img/laser.png");
+    for(unsigned short int i=0; i<maxNumOfEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", true); }
+
 
 
     while(!WindowShouldClose()){
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+
             if(scelta==0){
                 if(IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)){ menu--; }
                 if(IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)){ menu++; }
@@ -51,31 +59,36 @@ int main(void){
             }else if(scelta==1){
                 DrawTexture(background, 0, 0, WHITE);
                 updatePlayerPosition(&player);
+                updatePlayerLaser(playerLasers, &nLasers, &player);
+                
+                for(unsigned short int i=0; i<nEnemies; i++){
+                    DrawTexture(enemies[i].texture, enemies[i].x, enemies[i].y ,WHITE);
+                    for(unsigned short int j=0; j<nLasers; j++){
+                        DrawTexture(playerLasers[j].texture, playerLasers[j].x, playerLasers[j].y, WHITE);
+                        if(CheckCollisionCircleRec((Vector2){playerLasers[j].x, playerLasers[j].y}, playerLasers[j].rad, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height})){
+                            deletePlayerLaser(playerLasers, &nLasers, j);
+                            enemies[i].hp-=35;
+                        }
+                    }
+                    if(enemies[i].hp<1){
+                        deleteEnemy(enemies, i, &nEnemies);
+                    }
+                }
+
                 DrawTexturePro(
                     player.texture,
-                    (Rectangle){0,0,player.widht,player.height},
-                    (Rectangle){player.x,player.y,player.widht,player.height},
-                    (Vector2){player.widht/2,player.height/2},
+                    (Rectangle){0,0,player.width,player.height},
+                    (Rectangle){player.x,player.y,player.width,player.height},
+                    (Vector2){player.width/2,player.height/2},
                     (player.angle*-180/PI)+90,
                     WHITE
                 );
-
-                for(unsigned short int i=0; i<nEnemies; i++){
-                    DrawTexture(enemies[i].texture, enemies[i].x, enemies[i].y ,WHITE);
-
-                    if(CheckCollisionRecs((Rectangle){player.x, player.y, player.widht, player.height}, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].widht, enemies[i].height})){
-                        // player.hp > 29 ? player.hp-=30 : player.megadeth = true;
-                        player.hp-=30;
-                        printf("\n\nRR%f %f \n\n",enemies[i].x, enemies[i].y);
-                    }
-                }
         
                 if(player.hp<1){
                     player.megadeth=true;
                 }
         
-                if(player.megadeth){
-                    
+                if(player.megadeth){ 
                     DrawTexture(deathText, displayX/2 -175, displayY/2 -38, WHITE);
 
                     if(IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) ){ menu--; }
@@ -96,6 +109,7 @@ int main(void){
                         for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", false); }
                     }
                 }
+
             }else if(scelta==2){
                 DrawTexture(backgroundMenu, 0, 0, WHITE);
 		        DrawTextEx(megaFont, "CREDITI", (Vector2){(displayX/2)-(MeasureText("CREDITI",45)/2), displayY/4}, 45, 0, (Color){35, 35, 35, 250} );
@@ -108,13 +122,15 @@ int main(void){
                 if(IsKeyPressed(KEY_ENTER)){
                     scelta=0;
                 }
+
             }else{
                 break;
             }
+
         EndDrawing();
     }
-    free(enemies);
 
+    for(unsigned short int i=0; i<maxNumOfEnemies; i++){ UnloadTexture(enemies[i].texture); }
     UnloadTexture(player.texture);
     UnloadTexture(background);
     UnloadTexture(backgroundMenu);
@@ -126,6 +142,10 @@ int main(void){
 
     return 0;
 }
+
+
+
+/*-----------------------------------------FUNCTIONS-----------------------------------------*/
 
 void initWindow(void){
     InitWindow(800, 450, "prj");
