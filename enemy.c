@@ -5,6 +5,7 @@
 #include<raylib.h>
 #include<stdbool.h>
 #include<string.h>
+#include<math.h>
 
 void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture){
     Image enemyImg;
@@ -16,6 +17,7 @@ void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture){
     enemy->hp=150;
     enemy->width=30;
     enemy->height=30;
+    enemy->clock=0;
     switch(rand()%3){
         case 0:
             enemy->x=rand()%(GetScreenWidth()/2)-(GetScreenWidth()/2);
@@ -45,4 +47,19 @@ void deleteEnemy(Enemy* enemies, unsigned short int posDel, unsigned short int* 
         enemies[i]=enemies[i+1];
     }
     *nEnemies-=1;
+}
+
+void updateEnemyPosition(Enemy *enemy, Vector2 playerPos){
+    if(enemy->clock<15){
+        enemy->angle=asin((abs(playerPos.x-enemy->x)/(sqrt((abs(playerPos.x-enemy->x)*abs(playerPos.x-enemy->x))+(abs(playerPos.y-enemy->y)*abs(playerPos.y-enemy->y))))));
+    }
+    enemy->x+=GetFrameTime()*(cos(enemy->angle)*enemy->speed);
+    enemy->y+=GetFrameTime()*(sin(enemy->angle)*enemy->speed);
+
+    if(enemy->clock<=0){
+        //fn shoot
+        enemy->clock=30;
+    }else{
+        enemy->clock-=1;
+    }
 }
