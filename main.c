@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<raylib.h>
+#include<time.h>
 #include"player.h"
 #include"enemy.h"
 
@@ -38,7 +39,7 @@ int main(void){
     setPlayerLasers(playerLasers, maxNumOfLasers, "img/laser.png");
     for(unsigned short int i=0; i<maxNumOfEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", true); }
 
-
+    srand(time(NULL));
 
     while(!WindowShouldClose()){
         BeginDrawing();
@@ -73,6 +74,12 @@ int main(void){
                     if(enemies[i].hp<1){
                         deleteEnemy(enemies, i, &nEnemies);
                     }
+
+                    if(CheckCollisionRecs((Rectangle){player.x, player.y, player.width, player.height}, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height})){
+                        player.hp-=5;
+                    }
+                    updateEnemy(&(enemies[i]));
+    
                 }
 
                 DrawTexturePro(

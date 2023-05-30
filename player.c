@@ -86,18 +86,18 @@ void shootPlayerLaser(PlayerLaser* laser, Player *player){
     laser->angle=player->angle;
     laser->x=player->x-(laser->rad/2);
     laser->y=player->y-(laser->rad/2);
-    laser->speed=-900;
-    player->fireRate=7;
+    laser->speed=-1000;
+    player->fireRate=10;
 }
 
 void setPlayerLasers(PlayerLaser* lasers, unsigned short int nLaser, const char* imgFilename){
     Image lasersImg;
     lasersImg= LoadImage(imgFilename);
-    ImageResize(&lasersImg, 10, 10);
+    ImageResize(&lasersImg, 12, 12);
     
     for(unsigned short int i=0; i<nLaser; i++){
         lasers[i].texture= LoadTextureFromImage(lasersImg);
-        lasers[i].rad=10;
+        lasers[i].rad=12;
     }
     
     UnloadImage(lasersImg);

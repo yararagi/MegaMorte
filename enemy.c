@@ -1,7 +1,6 @@
 #include"enemy.h"
 
 #include<stdlib.h>
-#include<time.h>
 #include<raylib.h>
 #include<stdbool.h>
 #include<string.h>
@@ -10,25 +9,23 @@
 void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture){
     Image enemyImg;
 
-    srand(time(NULL));
-
-    // enemy->alive=false;
-    enemy->speed=400;
+    enemy->speedY=0;
+    enemy->speedX=0;
     enemy->hp=150;
-    enemy->width=30;
-    enemy->height=30;
+    enemy->width=45;
+    enemy->height=45;
     enemy->clock=0;
     switch(rand()%3){
         case 0:
-            enemy->x=rand()%(GetScreenWidth()/2)-(GetScreenWidth()/2);
+            enemy->x=0;
             enemy->y=rand()%GetScreenHeight();
             break;
         case 1:
             enemy->x=rand()%GetScreenWidth();
-            enemy->y=rand()%(GetScreenHeight()/2)-(GetScreenHeight()/2);
+            enemy->y=0;
             break;
         case 2:
-            enemy->x=rand()%(GetScreenWidth()/2)+GetScreenWidth();
+            enemy->x=GetScreenWidth();
             enemy->y=rand()%GetScreenHeight();
             break;
         default:
@@ -49,12 +46,42 @@ void deleteEnemy(Enemy* enemies, unsigned short int posDel, unsigned short int* 
     *nEnemies-=1;
 }
 
-void updateEnemyPosition(Enemy *enemy, Vector2 playerPos){
-    if(enemy->clock<15){
-        enemy->angle=asin((abs(playerPos.x-enemy->x)/(sqrt((abs(playerPos.x-enemy->x)*abs(playerPos.x-enemy->x))+(abs(playerPos.y-enemy->y)*abs(playerPos.y-enemy->y))))));
+void updateEnemy(Enemy *enemy){
+    if(enemy->clock>10){
+
+        if(enemy->clock==15){
+                if(rand()%2==0){
+                enemy->speedX=400;
+            }else{
+                enemy->speedX=-400;
+            }
+
+            if(rand()%2==0){
+                enemy->speedY=400;
+            }else{
+                enemy->speedY=-400;
+            }
+        }
+
+        enemy->x+=GetFrameTime()*enemy->speedX;
+        enemy->y+=GetFrameTime()*enemy->speedY;
+        
+        if(enemy->y>GetScreenHeight()-100){
+            enemy->speedY=-400;
+        }else if(enemy->y<0){
+            enemy->speedY=400;
+        }
+
+        if(enemy->x>GetScreenWidth()){
+            enemy->x=0;
+        }else if(enemy->x<0){
+            enemy->x=GetScreenWidth();
+        }
+
+        
     }
-    enemy->x+=GetFrameTime()*(cos(enemy->angle)*enemy->speed);
-    enemy->y+=GetFrameTime()*(sin(enemy->angle)*enemy->speed);
+
+    
 
     if(enemy->clock<=0){
         //fn shoot
