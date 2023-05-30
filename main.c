@@ -37,6 +37,9 @@ int main(void){
     megaFont=LoadFont("font/Megadeth.ttf");
     setPlayer(&player,"img/player.png", true);
     setPlayerLasers(playerLasers, maxNumOfLasers, "img/laser.png");
+    Music soundtrack;
+    soundtrack = LoadMusicStream("song/Tornado Of Souls.mp3");
+
     for(unsigned short int i=0; i<maxNumOfEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", true); }
 
     srand(time(NULL));
@@ -61,6 +64,8 @@ int main(void){
                 DrawTexture(background, 0, 0, WHITE);
                 updatePlayerPosition(&player);
                 updatePlayerLaser(playerLasers, &nLasers, &player);
+		if (!IsMusicPlaying(soundtrack)) PlayMusicStream(soundtrack);
+                UpdateMusicStream(soundtrack);
                 
                 for(unsigned short int i=0; i<nEnemies; i++){
                     DrawTexture(enemies[i].texture, enemies[i].x, enemies[i].y ,WHITE);
@@ -93,6 +98,8 @@ int main(void){
         
                 if(player.hp<1){
                     player.megadeth=true;
+		    StopMusicStream(soundtrack);
+
                 }
         
                 if(player.megadeth){ 
@@ -144,7 +151,8 @@ int main(void){
     UnloadTexture(logo);
     UnloadTexture(deathText);
     UnloadFont(megaFont);
-
+    
+    CloseAudioDevice();
     CloseWindow();
 
     return 0;
