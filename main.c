@@ -64,7 +64,7 @@ int main(void){
                 DrawTexture(background, 0, 0, WHITE);
                 updatePlayerPosition(&player);
                 updatePlayerLaser(playerLasers, &nLasers, &player);
-		if (!IsMusicPlaying(soundtrack)) PlayMusicStream(soundtrack);
+		        if (!IsMusicStreamPlaying(soundtrack)) PlayMusicStream(soundtrack);
                 UpdateMusicStream(soundtrack);
                 
                 for(unsigned short int i=0; i<nEnemies; i++){
@@ -98,7 +98,7 @@ int main(void){
         
                 if(player.hp<1){
                     player.megadeth=true;
-		    StopMusicStream(soundtrack);
+		            StopMusicStream(soundtrack);
 
                 }
         
@@ -150,6 +150,7 @@ int main(void){
     UnloadTexture(backgroundMenu);
     UnloadTexture(logo);
     UnloadTexture(deathText);
+    UnloadMusicStream(soundtrack);
     UnloadFont(megaFont);
     
     CloseAudioDevice();
@@ -175,6 +176,8 @@ void initWindow(void){
     
     SetTargetFPS(60);
     HideCursor();
+
+    InitAudioDevice();
 }
 
 void setBackground(Texture2D* texture, const char* imgFilename){
