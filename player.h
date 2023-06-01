@@ -3,8 +3,7 @@
 
 #include<raylib.h>
 #include<stdbool.h>
-
-#define maxNumOfLasers 50
+#include"laser.h"
 
 typedef struct{
     short int width, height;
@@ -17,20 +16,10 @@ typedef struct{
     Texture2D texture;
 }Player;
 
-typedef struct{
-    short int rad;
-    float x, y;
-    short int speed;
-    double angle;
-    Texture2D texture;
-}PlayerLaser;
-
 void updatePlayerPosition(Player*);
 void setPlayer(Player*, const char*, bool);
 
-void updatePlayerLaser(PlayerLaser*, unsigned short int*, Player*);
-void deletePlayerLaser(PlayerLaser*, unsigned short int* , unsigned short int);
-void setPlayerLasers(PlayerLaser*, unsigned short int, const char*);
-void shootPlayerLaser(PlayerLaser*, Player*);
+void updatePlayerLaser(Laser*, unsigned short int*, Player*);
+void shootPlayerLaser(Laser*, Player*);
 
 #endif //PLAYER_H_

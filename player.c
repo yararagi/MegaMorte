@@ -10,7 +10,7 @@ void updatePlayerPosition(Player* player){
     if(IsKeyDown(KEY_D)){ player->angle-=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_A)){ player->angle+=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_W) && player->y-player->height>0){    
-        player->speed=400;
+        player->speed=450;
         player->fallSpeed=0;    
     }
     else{   
@@ -60,8 +60,8 @@ void setPlayer(Player* player, const char* imgFilename, bool setTexture){
     }
 }
 
-void updatePlayerLaser(PlayerLaser* lasers, unsigned short int* nLasers, Player *player){
-    if((IsKeyPressed(KEY_L) || (IsKeyDown(KEY_L) && player->fireRate==0) )&& *nLasers<maxNumOfLasers){
+void updatePlayerLaser(Laser* lasers, unsigned short int* nLasers, Player *player){
+    if((IsKeyPressed(KEY_L) || (IsKeyDown(KEY_L) && player->fireRate==0) )&& *nLasers<maxNumOfPlayerLasers){
         shootPlayerLaser(&(lasers[*nLasers]), player);
         *nLasers+=1;
     }
@@ -70,35 +70,15 @@ void updatePlayerLaser(PlayerLaser* lasers, unsigned short int* nLasers, Player 
         lasers[i].y+=GetFrameTime()*(sin(lasers[i].angle)*lasers[i].speed);
 
         if(lasers[i].x>GetScreenWidth() || lasers[i].y>GetScreenHeight() || lasers[i].y<0 || lasers[i].x<0){
-            deletePlayerLaser(lasers, nLasers, i);
+            deleteLaser(lasers, nLasers, i);
         }
     }
 }
 
-void deletePlayerLaser(PlayerLaser* laser, unsigned short int* nLaser, unsigned short int posDel){
-    for(int i=posDel; i<*nLaser-1;i++){
-        laser[i]=laser[i+1];
-    }
-    *nLaser-=1;
-}
-
-void shootPlayerLaser(PlayerLaser* laser, Player *player){
+void shootPlayerLaser(Laser* laser, Player *player){
     laser->angle=player->angle;
     laser->x=player->x-(laser->rad/2);
     laser->y=player->y-(laser->rad/2);
     laser->speed=-1000;
     player->fireRate=10;
-}
-
-void setPlayerLasers(PlayerLaser* lasers, unsigned short int nLaser, const char* imgFilename){
-    Image lasersImg;
-    lasersImg= LoadImage(imgFilename);
-    ImageResize(&lasersImg, 12, 12);
-    
-    for(unsigned short int i=0; i<nLaser; i++){
-        lasers[i].texture= LoadTextureFromImage(lasersImg);
-        lasers[i].rad=12;
-    }
-    
-    UnloadImage(lasersImg);
 }
