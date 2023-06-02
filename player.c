@@ -10,7 +10,7 @@ void updatePlayerPosition(Player* player){
     if(IsKeyDown(KEY_D)){ player->angle-=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_A)){ player->angle+=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_W) && player->y-player->height>0){    
-        player->speed=450;
+        player->speed=500;
         player->fallSpeed=0;    
     }
     else{   
@@ -49,6 +49,7 @@ void setPlayer(Player* player, const char* imgFilename, bool setTexture){
     player->hp=100;
     player->megadeth=false;
     player->fireRate=0;
+    player->nLasers=0;
 
     Image playerImg;
 
@@ -60,17 +61,17 @@ void setPlayer(Player* player, const char* imgFilename, bool setTexture){
     }
 }
 
-void updatePlayerLaser(Laser* lasers, unsigned short int* nLasers, Player *player){
-    if((IsKeyPressed(KEY_L) || (IsKeyDown(KEY_L) && player->fireRate==0) )&& *nLasers<maxNumOfPlayerLasers){
-        shootPlayerLaser(&(lasers[*nLasers]), player);
-        *nLasers+=1;
+void updatePlayerLaser(Laser* lasers, Player *player){
+    if((IsKeyPressed(KEY_L) || (IsKeyDown(KEY_L) && player->fireRate==0) )&& player->nLasers<maxNumOfPlayerLasers){
+        shootPlayerLaser(&(lasers[player->nLasers]), player);
+        player->nLasers+=1;
     }
-    for(unsigned short int i=0; i<*nLasers; i++){
+    for(unsigned short int i=0; i<player->nLasers; i++){
         lasers[i].x+=GetFrameTime()*(cos(lasers[i].angle+PI)*lasers[i].speed);
         lasers[i].y+=GetFrameTime()*(sin(lasers[i].angle)*lasers[i].speed);
 
         if(lasers[i].x>GetScreenWidth() || lasers[i].y>GetScreenHeight() || lasers[i].y<0 || lasers[i].x<0){
-            deleteLaser(lasers, nLasers, i);
+            deleteLaser(lasers, &(player->nLasers), i);
         }
     }
 }

@@ -18,9 +18,6 @@ int main(void){
     Font megaFont;
     
     Player player;
-    
-    unsigned short int nLasers=0;
-    Laser playerLasers[maxNumOfPlayerLasers];
 
     unsigned short int nEnemies=3;
     Enemy enemies[maxNumOfEnemies];
@@ -37,7 +34,7 @@ int main(void){
     setTitle(&deathText, "img/endgame.png");
     megaFont=LoadFont("font/Megadeth.ttf");
     setPlayer(&player,"img/player.png", true);
-    setLasers(playerLasers, maxNumOfPlayerLasers, "img/laser.png");
+    setLasers(player.lasers, maxNumOfPlayerLasers, "img/laser.png");
     Music soundtrack;
     soundtrack = LoadMusicStream("song/Tornado Of Souls.mp3");
 
@@ -66,17 +63,21 @@ int main(void){
 
             }else if(scelta==1){
                 DrawTexture(background, 0, 0, WHITE);
-                updatePlayerPosition(&player);
-                updatePlayerLaser(playerLasers, &nLasers, &player);
-		        if (!IsMusicStreamPlaying(soundtrack)){ PlayMusicStream(soundtrack); }
+                if (!IsMusicStreamPlaying(soundtrack)){ PlayMusicStream(soundtrack); }
                 UpdateMusicStream(soundtrack);
-                
+
+                updatePlayerPosition(&player);
+                updatePlayerLaser(player.lasers, &player);
+
+                for(unsigned short int i=0; i<player.nLasers; i++){
+                    DrawTexture(player.lasers[i].texture, player.lasers[i].x, player.lasers[i].y, WHITE);
+                }
+
                 for(unsigned short int i=0; i<nEnemies; i++){
                     DrawTexture(enemies[i].texture, enemies[i].x, enemies[i].y ,WHITE);
-                    for(unsigned short int j=0; j<nLasers; j++){
-                        DrawTexture(playerLasers[j].texture, playerLasers[j].x, playerLasers[j].y, WHITE);
-                        if(CheckCollisionCircleRec((Vector2){playerLasers[j].x, playerLasers[j].y}, playerLasers[j].rad, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height})){
-                            deleteLaser(playerLasers, &nLasers, j);
+                    for(unsigned short int j=0; j<player.nLasers; j++){
+                        if(CheckCollisionCircleRec((Vector2){player.lasers[j].x, player.lasers[j].y}, player.lasers[j].rad, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height})){
+                            deleteLaser(player.lasers, &(player.nLasers), j);
                             enemies[i].hp-=50;
                         }
                     }
@@ -84,17 +85,12 @@ int main(void){
                         DrawTexture(enemies[i].lasers[j].texture, enemies[i].lasers[j].x, enemies[i].lasers[j].y, RED);
                         if(CheckCollisionCircleRec((Vector2){enemies[i].lasers[j].x, enemies[i].lasers[j].y}, enemies[i].lasers[j].rad, (Rectangle){player.x, player.y, player.width, player.height} )){
                             player.hp-=35;
+                            deleteLaser(&(enemies[i].lasers[j]), &(enemies[i].nLasers), j);
                         }
                     }
                     if(enemies[i].hp<1){
                         deleteEnemy(enemies, i, &nEnemies);
                     }
-
-                    /*
-                    if(CheckCollisionRecs((Rectangle){player.x, player.y, player.width, player.height}, (Rectangle){enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height})){
-                        player.hp-=5;
-                    }
-                    */
                    
                     updateEnemy(&(enemies[i]), (Vector2){player.x, player.y});
                 }
@@ -137,7 +133,12 @@ int main(void){
                             scelta=0;
                         }
                         setPlayer(&player,"img/player.png", false);
-                        for(unsigned short int i=0; i<nEnemies; i++){ setEnemy(&(enemies[i]), "img/enemy.png", false); }
+                        player.nLasers=0;
+                        nEnemies=3;
+                        for(unsigned short int i=0; i<nEnemies; i++){ 
+                            setEnemy(&(enemies[i]), "img/enemy.png", false); 
+                            enemies[i].nLasers=0;
+                        }
                     }
                 }
 

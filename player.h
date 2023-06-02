@@ -13,13 +13,15 @@ typedef struct{
     short int hp;
     unsigned short int fireRate;
     bool megadeth;
+    unsigned short int nLasers;
+    Laser lasers[maxNumOfPlayerLasers];
     Texture2D texture;
 }Player;
 
 void updatePlayerPosition(Player*);
 void setPlayer(Player*, const char*, bool);
 
-void updatePlayerLaser(Laser*, unsigned short int*, Player*);
+void updatePlayerLaser(Laser*, Player*);
 void shootPlayerLaser(Laser*, Player*);
 
 #endif //PLAYER_H_
