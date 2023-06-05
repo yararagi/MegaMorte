@@ -15,6 +15,8 @@ void setTitle(Texture2D*, const char*);
 
 int main(void){
     Texture2D background, backgroundMenu, logo, deathText;
+    Music soundtrack;
+    Sound soundEnemyDeath, soundPlayerHit, soundPlayersDeath, soundPlayersDeathDrowning, soundPlayersLaser;
     Font megaFont;
     float gameTime=0;
     unsigned short int kill=0;
@@ -40,8 +42,10 @@ int main(void){
     megaFont=LoadFont("font/Megadeth.ttf");
     setPlayer(&player,"img/player.png", true);
     setLasers(player.lasers, maxNumOfPlayerLasers, "img/laser.png");
-    Music soundtrack;
     soundtrack = LoadMusicStream("song/Tornado Of Souls.mp3");
+    soundPlayerHit=LoadSound("song/soundPlayerHit.wav");
+    soundPlayersDeath=LoadSound("song/soundPlayersDeath.mp3");
+
 
     for(unsigned short int i=0; i<maxNumOfEnemies; i++){ 
         setEnemy(&(enemies[i]), "img/enemy.png", true);
@@ -105,6 +109,7 @@ int main(void){
                             if(CheckCollisionCircleRec((Vector2){enemies[i].lasers[j].x, enemies[i].lasers[j].y}, enemies[i].lasers[j].rad, (Rectangle){player.x, player.y, player.width, player.height} )){
                                 player.hp-=30;
                                 deleteLaser(&(enemies[i].lasers[j]), &(enemies[i].nLasers), j);
+                                player.hp<=0 ? PlaySound(soundPlayersDeath): PlaySound(soundPlayerHit);
                             }
                         }
                         if(enemies[i].hp<1){
@@ -124,7 +129,7 @@ int main(void){
                         WHITE
                     );
 
-                    DrawTextEx(megaFont, TextFormat("HP: %d", player.hp), (Vector2){35,35},30,0,BLACK);
+                    DrawTextEx(megaFont, TextFormat("HP: %d", player.hp>0 ? player.hp : 0), (Vector2){35,35},30,0,BLACK);
                     DrawTextEx(megaFont, TextFormat("KILL: %d", kill), (Vector2){35,75},30,0,BLACK);
                     DrawTextEx(megaFont, TextFormat("%02d:%02d",(int)gameTime/60, (int)gameTime%60 ), (Vector2){displayX-35-MeasureText("XX:XX",30),35},30,0,BLACK);
 
@@ -209,13 +214,23 @@ int main(void){
         EndDrawing();
     }
 
-    for(unsigned short int i=0; i<maxNumOfEnemies; i++){ UnloadTexture(enemies[i].texture); }
+    for(unsigned short int i=0; i<maxNumOfEnemies; i++){
+        for(unsigned short int j=0; j<maxNumOfEnemyLasers; j++){
+            UnloadTexture(enemies[i].lasers[j].texture);
+        } 
+        UnloadTexture(enemies[i].texture);     
+    }
+    for(unsigned short int i=0; i<maxNumOfPlayerLasers; i++){
+        UnloadTexture(player.lasers[i].texture);
+    }
     UnloadTexture(player.texture);
     UnloadTexture(background);
     UnloadTexture(backgroundMenu);
     UnloadTexture(logo);
     UnloadTexture(deathText);
     UnloadMusicStream(soundtrack);
+    UnloadSound(soundEnemyDeath);
+    UnloadSound(soundPlayerHit);
     UnloadFont(megaFont);
     
     CloseAudioDevice();
