@@ -5,7 +5,7 @@
 #include<stdbool.h>
 #include"laser.h"
 
-#define maxNumOfEnemies 25
+#define maxNumOfEnemies 30
 
 typedef struct{
     float x, y;

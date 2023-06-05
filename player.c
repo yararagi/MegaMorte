@@ -24,11 +24,14 @@ void updatePlayerPosition(Player* player){
     if(player->x+player->width<0){
         player->x=GetScreenWidth();
     }
-    if(player->y>GetScreenHeight()){
+    if(player->hp<1){
         player->megadeth=true;
-        player->speed=0;
     }
-
+    if(player->y>GetScreenHeight()){
+        player->speed=0;
+        player->hp=0;
+    }
+    
     if(player->fireRate>0){ 
         player->fireRate-=1;
     }
@@ -46,7 +49,7 @@ void setPlayer(Player* player, const char* imgFilename, bool setTexture){
     player->height=35;
     player->width=35;
     player->speed=0;
-    player->hp=100;
+    player->hp=300;
     player->megadeth=false;
     player->fireRate=0;
     player->nLasers=0;

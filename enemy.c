@@ -13,7 +13,7 @@ void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture){
 
     enemy->speed=200;
     enemy->nLasers=0;
-    enemy->hp=150;
+    enemy->hp=100;
     enemy->width=45;
     enemy->height=45;
     enemy->clock=rand()%200;
