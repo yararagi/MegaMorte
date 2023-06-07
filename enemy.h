@@ -18,11 +18,11 @@ typedef struct{
     Texture2D texture;
 }Enemy;
 
-void updateEnemy(Enemy*, Vector2);
-void setEnemy(Enemy *, const char *, bool);
-void deleteEnemy(Enemy*, unsigned short int, unsigned short int*);
+void setEnemy(Enemy * enemy, const char * imgFilename, bool setTexture);
+void deleteEnemy(Enemy* enemies, unsigned short int posDel, unsigned short int* nEnemies);
+void updateEnemy(Enemy *enemy, Vector2 playerPos);
 
-void shootEnemyLaser(Enemy*, float, float);
-void updateEnemyLaser(Enemy*);
+void shootEnemyLaser(Enemy *enemy, float playerY, float asseX);
+void updateEnemyLaser(Enemy *enemy);
 
 #endif //ENEMY_H_
