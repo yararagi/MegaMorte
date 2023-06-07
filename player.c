@@ -6,7 +6,7 @@
 
 #include<stdio.h>
 
-void updatePlayerPosition(Player* player){
+void updatePlayerPos(Player* player, Sound soundDeathByDrowning){
     if(IsKeyDown(KEY_D)){ player->angle-=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_A)){ player->angle+=2*PI*GetFrameTime(); }
     if(IsKeyDown(KEY_W) && player->y-player->height>0){    
@@ -30,6 +30,7 @@ void updatePlayerPosition(Player* player){
     if(player->y>GetScreenHeight()){
         player->speed=0;
         player->hp=0;
+        PlaySound(soundDeathByDrowning);
     }
     
     if(player->fireRate>0){ 
@@ -64,9 +65,10 @@ void setPlayer(Player* player, const char* imgFilename, bool setTexture){
     }
 }
 
-void updatePlayerLaser(Laser* lasers, Player *player){
+void updatePlayerLaser(Laser* lasers, Player *player, Sound laserSound){
     if((IsKeyPressed(KEY_L) || (IsKeyDown(KEY_L) && player->fireRate==0) )&& player->nLasers<maxNumOfPlayerLasers){
         shootPlayerLaser(&(lasers[player->nLasers]), player);
+        PlaySound(laserSound);
         player->nLasers+=1;
     }
     for(unsigned short int i=0; i<player->nLasers; i++){

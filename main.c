@@ -45,6 +45,12 @@ int main(void){
     soundtrack = LoadMusicStream("song/Tornado Of Souls.mp3");
     soundPlayerHit=LoadSound("song/soundPlayerHit.wav");
     soundPlayersDeath=LoadSound("song/soundPlayersDeath.mp3");
+    soundEnemyDeath=LoadSound("song/soundEnemyDeath.mp3");
+    soundPlayersDeathDrowning=LoadSound("song/soundPlayersDeath_drowning.mp3");
+    soundPlayersLaser=LoadSound("song/soundPlayersLaser.wav");
+    SetSoundVolume(soundPlayersLaser, 0.135);
+    SetSoundVolume(soundPlayerHit, 0.63);
+    SetSoundVolume(soundEnemyDeath,0.53);
 
 
     for(unsigned short int i=0; i<maxNumOfEnemies; i++){ 
@@ -78,8 +84,8 @@ int main(void){
 
                     gameTime+=GetFrameTime();
 
-                    updatePlayerPosition(&player);
-                    updatePlayerLaser(player.lasers, &player);
+                    updatePlayerPos(&player, soundPlayersDeathDrowning);
+                    updatePlayerLaser(player.lasers, &player, soundPlayersLaser);
 
                     for(unsigned short int i=0; i<player.nLasers; i++){
                         DrawTexture(player.lasers[i].texture, player.lasers[i].x, player.lasers[i].y, WHITE);
@@ -114,6 +120,7 @@ int main(void){
                         }
                         if(enemies[i].hp<1){
                             deleteEnemy(enemies, i, &nEnemies);
+                            PlaySound(soundEnemyDeath);
                             kill+=1;
                         }
                     
@@ -229,7 +236,7 @@ int main(void){
     UnloadTexture(logo);
     UnloadTexture(deathText);
     UnloadMusicStream(soundtrack);
-    UnloadSound(soundEnemyDeath);
+    UnloadSound(soundPlayersDeath);
     UnloadSound(soundPlayerHit);
     UnloadFont(megaFont);
     

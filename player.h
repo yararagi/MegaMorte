@@ -18,10 +18,10 @@ typedef struct{
     Texture2D texture;
 }Player;
 
-void updatePlayerPosition(Player*);
-void setPlayer(Player*, const char*, bool);
+void updatePlayerPos(Player* player, Sound soundDeathByDrowning);
+void setPlayer(Player* player, const char* imgFilename, bool setTexture);
 
-void updatePlayerLaser(Laser*, Player*);
-void shootPlayerLaser(Laser*, Player*);
+void updatePlayerLaser(Laser* lasers, Player *player, Sound laserSound);
+void shootPlayerLaser(Laser* laser, Player *player);
 
 #endif //PLAYER_H_
